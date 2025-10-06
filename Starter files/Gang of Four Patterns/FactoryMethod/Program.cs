@@ -1,1 +1,15 @@
-﻿Console.Title = "Factory Method";
+﻿using FactoryMethod;
+
+Console.Title = "Factory Method";
+
+var factories = new List<DiscountFactory> {
+    new CodeDiscountFactory(Guid.NewGuid()),
+    new CountryDiscountFactory("BE") };
+
+foreach (var factory in factories)
+{
+    var discountService = factory.CreateDiscountService();
+    Console.WriteLine($"percentage {discountService.DiscountPercentage} " + $"coming from {discountService}"); ;
+}
+
+Console.ReadKey();
