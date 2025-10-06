@@ -53,18 +53,21 @@
         public int Amount { get; set; }
         public string Name { get; set; }
 
-        public IExportService? ExportService { get; set; }
-        public Order(string customer, int amount, string name, IExportService? exportService = null)
+        //public IExportService? ExportService { get; set; }
+        public Order(string customer, int amount, string name)
         {
             Customer = customer;
             Amount = amount;
             Name = name;
-            ExportService = exportService ?? new CSVExportService();
         }
 
-        public void Export()
+        public void Export(IExportService exportService)
         {
-            ExportService?.Export(this);
+            if (exportService is null)
+            {
+                throw new ArgumentNullException(nameof(exportService));
+            }
+            exportService.Export(this);
         }
     }
 }
